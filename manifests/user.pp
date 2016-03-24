@@ -39,4 +39,11 @@ class hbase::user {
     }
   }
   Group['hbase'] -> User['hbase']
+
+  file { $hbase::hbase_homedir:
+    ensure => directory,
+    owner  => 'hbase',
+    group  => 'hadoop',
+    mode   => '0755',
+  }
 }

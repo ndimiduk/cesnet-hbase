@@ -15,3 +15,10 @@ export HBASE_MANAGES_ZK=false
 <% else -%>
 export HBASE_MANAGES_ZK=true
 <% end -%>
+<% if scope.lookupvar('hbase::environment') and not scope.lookupvar('hbase::environment').empty? -%>
+<% scope.lookupvar('hbase::environment').keys.each do |k| -%>
+export <%= k -%>=<%= scope.lookupvar('hbase::environment')[k] %>
+<% end -%>
+<% end -%>
+export HBASE_LOG_DIR=<%= scope.lookupvar('hbase::logdir') %>
+export HBASE_PID_DIR=<%= scope.lookupvar('hbase::piddir') %>

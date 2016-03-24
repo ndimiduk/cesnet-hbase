@@ -79,5 +79,8 @@ class hbase::params {
     /Debian|RedHat/ => '/var/lib/hbase',
   }
 
+  $logdir = '/var/log/hbase'
+  $piddir = '/var/run/hbase'
+
   $https_keystore = '/etc/security/server.keystore'
 }

@@ -5,6 +5,12 @@ class hbase::frontend::config {
     contain hbase::common::keytab
   }
 
+  file {'/var/lib/hbase':
+    ensure => 'directory',
+    owner  => 'hbase',
+    group  => 'hbase',
+  }
+  ->
   file {'/var/lib/hbase/local':
     ensure => 'directory',
     owner  => 'hbase',

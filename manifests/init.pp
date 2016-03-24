@@ -15,6 +15,7 @@ class hbase (
   $realm = '',
   $properties = undef,
   $descriptions = undef,
+  $environment = undef,
   $features = {},
   $acl = undef,
   $alternatives = '::default',

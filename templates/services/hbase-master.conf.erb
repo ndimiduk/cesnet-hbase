@@ -1,0 +1,29 @@
+description "hbase-master"
+
+#
+# based on instructions from http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.3.4/bk_installing_manually_book/content/ref-931e6e36-c434-472e-b56c-cb87ddfbb5da.1.html
+#
+
+start on runlevel [2345]
+stop on runlevel [016]
+
+respawn
+respawn limit 5 60
+
+kill timeout 300
+
+# actually start master
+pre-start exec bash -c "ulimit -n 32768 && sudo -u hbase /usr/hdp/current/hbase-master/bin/hbase-daemon.sh --config <%= scope.lookupvar('hbase::confdir') %> start master"
+
+#
+# upstart executes this script. If this script exits, upstart respawns the service
+# cannot just excecute *-daemon.sh here, because the actual daemon script excecutes after start
+#   and upstart thinks service is stopped so respawns *-daemon.sh constantly.
+#
+script
+  while ps auwx | grep proc_master | grep -q -v grep; do
+    sleep 5
+  done
+end script
+
+post-stop exec sudo -u hbase /usr/hdp/current/hbase-master/bin/hbase-daemon.sh --config <%= scope.lookupvar('hbase::confdir') %> stop master

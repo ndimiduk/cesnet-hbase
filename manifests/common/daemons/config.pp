@@ -1,13 +1,25 @@
 class hbase::common::daemons::config {
   contain hbase::common::keytab
 
-  if "${::osfamily}/${::operatingsystem}" == 'RedHat/Fedora' {
-    file { '/etc/security/limits.d/90-hbase.conf':
-      owner  => 'root',
-      group  => 'root',
-      alias  => 'limits.conf',
-      source => 'puppet:///modules/hbase/limits.conf',
-    }
+  file { '/etc/security/limits.d/90-hbase.conf':
+    owner  => 'root',
+    group  => 'root',
+    alias  => 'limits.conf',
+    source => 'puppet:///modules/hbase/limits.conf',
+  }
+
+  file { $hbase::logdir:
+    ensure => directory,
+    owner  => 'hbase',
+    group  => 'hadoop',
+    mode   => '0755',
+  }
+
+  file { $hbase::piddir:
+    ensure => directory,
+    owner  => 'hbase',
+    group  => 'hadoop',
+    mode   => '0755',
   }
 
   if $hbase::features["hbmanager"] {
