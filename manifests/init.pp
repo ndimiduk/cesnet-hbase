@@ -25,6 +25,10 @@ class hbase (
   $https_keystore_password = 'changeit',
   $https_keystore_keypassword = undef,
   $perform = $hbase::params::perform,
+  $phoenix_version = undef,
+  $auth_token = undef,
+  $phoenix_tgz_url = undef,
+  $phoenix_install_dir = undef,
 ) inherits hbase::params {
   include stdlib
 
