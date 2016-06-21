@@ -5,19 +5,20 @@ class hbase::frontend::config {
     contain hbase::common::keytab
   }
 
-  file {'/var/lib/hbase':
+  file { $hbase::hbase_homedir:
+    ensure => directory,
+    owner  => 'hbase',
+    group  => 'hadoop',
+    mode   => '0755',
+  }
+  ->
+  file {"${hbase::hbase_homedir}/local":
     ensure => 'directory',
     owner  => 'hbase',
     group  => 'hbase',
   }
   ->
-  file {'/var/lib/hbase/local':
-    ensure => 'directory',
-    owner  => 'hbase',
-    group  => 'hbase',
-  }
-  ->
-  file {'/var/lib/hbase/local/jars':
+  file {"${hbase::hbase_homedir}/local/jars":
     ensure => 'directory',
     owner  => 'hbase',
     group  => 'hbase',
